@@ -5,6 +5,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
+    "start": "npm run watch:scripts",
     "bundle:scripts": "webpack",
     "watch:scripts": "webpack -w",
     "test": "ava",

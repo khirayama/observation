@@ -12,10 +12,12 @@ class Stage {
     this._start()
   }
   add(obj) {
+    obj.start();
     this.objects.push(obj);
   }
   _start() {
-    setInterval(this._update.bind(this), 1000 / 180);
+    setInterval(this._update.bind(this), 1000 / 360);
+    // setInterval(this._update.bind(this), 1000 / 180);
     // setInterval(this._update.bind(this), 1000 / 60);
     // setInterval(this._update.bind(this), 1000 / 20);
   }
@@ -23,7 +25,8 @@ class Stage {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.objects.forEach(obj => {
       if (obj.update) {
-        obj.update(this.canvas, this.ctx);
+        obj.search(this.canvas, this.objects);
+        obj.update(this.canvas);
       }
       if (obj.render) {
         obj.render(this.canvas, this.ctx);
@@ -36,8 +39,19 @@ window.addEventListener('DOMContentLoaded', () => {
   console.log('start app');
 
   const stage = new Stage();
-  stage.add(new Charactor({
-    x: stage.canvas.width / 2,
-    y: stage.canvas.height / 2,
-  }));
+  const max = 20;
+  for (let i = 0; i < max; i++) {
+    const padding = 50;
+    stage.add(new Charactor({
+      curiosity: Math.random() * 100,
+      intelligence: Math.random() * 100,
+      speed: Math.random() * 100,
+      view: Math.random() * 360,
+      vision: Math.random() * 100,
+
+      x: padding + Math.random() * (stage.canvas.width - padding * 2),
+      y: padding + Math.random() * (stage.canvas.height - padding * 2),
+      dir: Math.random() * 360,
+    }));
+  }
 });
